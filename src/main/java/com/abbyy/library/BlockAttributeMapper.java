@@ -1,41 +1,39 @@
 package com.abbyy.library;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.abbyy.formatter.ProfileFormat;
 import com.abbyy.model.BlockInfo;
 
 public class BlockAttributeMapper {
 
-	public static Map<String, Map<String, String>> getProfileBlockAttributeMapper(List<BlockInfo> blockAttributeList, String blockName) {
+	public static ProfileFormat getProfileBlockAttributeMapper(List<BlockInfo> blockAttributeList,
+			String blockName) {
 
-		Map<String, Map<String, String>> blockAttribute = new HashMap<String, Map<String, String>>();
+
+		ProfileFormat profile = new ProfileFormat();
 
 		for (BlockInfo blockAtt : blockAttributeList) {
 
-			// System.out.println("BlockFound " + blockAtt.getText());
-
 			if (blockAtt.getText().contains("Alarm")) {
 
-				Map<String, String> attributeMap = getAttributeMap(BlockConstants.profiles_block_alarm_severity,
-						blockAttributeList, blockAtt.getTop(), blockAtt.getLeft());
-				blockAttribute.put(BlockConstants.profiles_block, attributeMap);
-
+				String attributeMap = getAttributeMap(BlockConstants.profiles_block_alarm_severity, blockAttributeList,
+						blockAtt.getTop(), blockAtt.getLeft());
+				profile.setAlarmSeverity(attributeMap);
 			}
 
 			if (blockAtt.getText().contains("xDSL")) {
 
-				Map<String, String> attributeMap = getAttributeMap(BlockConstants.profiles_block_xDsl_line,
-						blockAttributeList, blockAtt.getTop(), blockAtt.getLeft());
-				blockAttribute.put(BlockConstants.profiles_block, attributeMap);
+				String attributeMap = getAttributeMap(BlockConstants.profiles_block_xDsl_line, blockAttributeList,
+						blockAtt.getTop(), blockAtt.getLeft());
+				profile.setxDslLine(attributeMap);
 			}
 
 			if (blockAtt.getText().contains("Custom Notch:")) {
 
-				Map<String, String> attributeMap = getAttributeMap(BlockConstants.profiles_block_custom_notch,
-						blockAttributeList, blockAtt.getTop(), blockAtt.getLeft());
-				blockAttribute.put(BlockConstants.profiles_block, attributeMap);
+				String attributeMap = getAttributeMap(BlockConstants.profiles_block_custom_notch, blockAttributeList,
+						blockAtt.getTop(), blockAtt.getLeft());
+				profile.setCustomNotch(attributeMap);
 			}
 			if (blockAtt.getText().contains("Upstream PSD mask:")) {
 
@@ -50,24 +48,21 @@ public class BlockAttributeMapper {
 
 			}
 		}
-		return blockAttribute;
+		return profile;
 
 	}
 
-	private static Map<String, String> getAttributeMap(String nodeName, List<BlockInfo> bList, int top, int left) {
+	private static String getAttributeMap(String nodeName, List<BlockInfo> bList, int top, int left) {
 
 		for (BlockInfo b : bList) {
-			Map<String, String> map = new HashMap<String, String>();
 
 			if (b.getTop() != top && (b.getTop() < (top + 8) && b.getTop() > (top - 8))) {
 
-				//System.out.println("Value Found Node  " + nodeName + " : " + b.getText());
-				map.put(nodeName, b.getText());
-				return map;
+			System.out.println("Found "+nodeName+" :"+ b.getText());
+				return b.getText();
 			} else {
 
-				map.put(nodeName, BlockConstants.ORC_NOT_ABLE_RECORGINE);
-				return map;
+				return BlockConstants.ORC_NOT_ABLE_RECORGINE;
 			}
 
 		}

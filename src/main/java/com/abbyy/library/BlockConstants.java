@@ -12,6 +12,6 @@ public class BlockConstants {
 	public static final String profiles_block_xDsl_line = "xDSL Line";
 	public static final String profiles_block_custom_notch = "Custom Notch";
 
-	public static final String ORC_NOT_ABLE_RECORGINE = "Not Recogine";
+	public static final String ORC_NOT_ABLE_RECORGINE = "Not Recognize";
 
 }

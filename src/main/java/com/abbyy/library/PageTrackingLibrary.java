@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.abbyy.formatter.ProfileFormat;
 import com.abbyy.model.BlockFinderParam;
 import com.abbyy.model.BlockInfo;
 
@@ -23,9 +24,9 @@ public class PageTrackingLibrary {
 					List<BlockInfo> blockAttributeFinder = BlockAttributeFinder.getBlockAttributeFinder(
 							blockNameFinder.getTop(), blockNameFinder.getMinleft(), blockNameFinder.getMaxleft(),
 							blockList);
-					Map<String, Map<String, String>> profileBlockAttributeMapper = BlockAttributeMapper.getProfileBlockAttributeMapper(blockAttributeFinder, BlockConstants.profiles_block);
+					ProfileFormat profileBlockAttributeMapper = BlockAttributeMapper.getProfileBlockAttributeMapper(blockAttributeFinder, BlockConstants.profiles_block);
 				
-					System.out.println(profileBlockAttributeMapper.toString());
+					System.out.println(profileBlockAttributeMapper);
 				}
 			}
 		}

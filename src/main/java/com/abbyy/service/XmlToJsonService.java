@@ -3,30 +3,21 @@ package com.abbyy.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
-import javax.swing.JInternalFrame;
-
-import org.hibernate.dialect.pagination.TopLimitHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.abbyy.library.PageTrackingLibrary;
 import com.abbyy.model.BlockInfo;
-import com.abbyy.repo.OcrRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class XmlToJsonService {
 
-	// private static final Logger logger =
-	// LoggerFactory.getLogger(XmlToJsonService.class);
-	@Autowired
-	private OcrRepo ocrRepo;
+
 
 	private static final String INDEX = "battery_info";
 	ObjectMapper objectMapper = new ObjectMapper();
@@ -52,7 +43,6 @@ public class XmlToJsonService {
 					if (arrObj.has("text")) {
 
 						JSONObject text = (JSONObject) arrObj.get("text");
-						// logger.info("::::::: Inside text");
 
 						if (extractParJsonObject(text) != null) {
 							extractParJsonObject(text).forEach(x -> {
@@ -89,9 +79,6 @@ public class XmlToJsonService {
 													}
 												});
 											}
-
-											System.out.println("Final Output is: " + blockTextBuilder);
-											System.out.println("Top" + bl.getTop() + "Left" + bl.getLeft());
 
 											bl.setText(blockTextBuilder.toString());
 
