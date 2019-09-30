@@ -1,19 +1,22 @@
 package com.abbyy.library;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.abbyy.model.BlockInfo;
 
 public class BlockAttributeFinder {
 
-	public  static BlockInfo getBlockAttributeFinder(int top, int left, BlockInfo block) {
-
-		if (block.getTop() < (top + 3) || block.getTop() > (top - 3) && block.getLeft() < (left + 3)
-				|| block.getLeft() > (left - 3)) {
-
-			return block;
-
+	public static List<BlockInfo> getBlockAttributeFinder(int top, int minleft, int maxleft,
+			List<BlockInfo> blocklist) {
+		List<BlockInfo> filterlist = new ArrayList<BlockInfo>();
+		for (BlockInfo block : blocklist) {
+			if (block.getTop() > (top) && (block.getLeft() < maxleft && block.getLeft() > minleft))
+			{
+				filterlist.add(block);
+			}
 		}
-
-		return null;
+		return filterlist;
 	}
 
 }

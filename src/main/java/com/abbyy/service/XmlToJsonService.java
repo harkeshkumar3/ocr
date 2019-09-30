@@ -7,6 +7,7 @@ import java.util.StringJoiner;
 
 import javax.swing.JInternalFrame;
 
+import org.hibernate.dialect.pagination.TopLimitHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.abbyy.library.PageTrackingLibrary;
 import com.abbyy.model.BlockInfo;
 import com.abbyy.repo.OcrRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +33,7 @@ public class XmlToJsonService {
 
 	public void xmlToJsonConverter(String xml_String) {
 
-		// List<BlockInfo> blockTextList = new ArrayList<BlockInfo>();
+		List<BlockInfo> blockTextList = new ArrayList<BlockInfo>();
 
 		try {
 
@@ -58,59 +60,42 @@ public class XmlToJsonService {
 								if (extractLineJsonObject(par) != null) {
 									extractLineJsonObject(par).forEach(lineobj -> {
 										JSONObject line = (JSONObject) lineobj;
-										// logger.info("::::::: Inside line");
 
 										BlockInfo bl = new BlockInfo();
-										/*
-										 * int top = line.getInt("t"); int bottom = line.getInt("b"); int left =
-										 * line.getInt("l"); int right = line.getInt("r");
-										 */
+
 										bl.setBottom(line.getInt("b"));
 										bl.setTop(line.getInt("t"));
 										bl.setLeft(line.getInt("l"));
 										bl.setRight(line.getInt("r"));
-										/*
-										 * System.out.println("TOP :- [" + top + " ]"); System.out.println("Bottom :-[ "
-										 * + bottom + " ]"); System.out.println("left:- [" + left + " ]");
-										 * System.out.println("Right :[" + right + " ]");
-										 */
 
 										if (line.has("formatting")) {
 											JSONObject formatting = (JSONObject) line.get("formatting");
 											Object charParamsArrayObj = formatting.get("charParams");
-											String toPrint = "";
-											StringJoiner joiner = new StringJoiner("");
+
 											StringBuilder blockTextBuilder = new StringBuilder();
 											if (charParamsArrayObj instanceof JSONArray) {
 
 												JSONArray charParamsArray = (JSONArray) charParamsArrayObj;
 
-												StringBuilder listString = new StringBuilder();
-												String outputblockText = null;
 												charParamsArray.forEach(charParamObj -> {
 
 													JSONObject charParam = (JSONObject) charParamObj;
 
 													if (charParam.has("content")) {
-														// System.out.print(charParam.get("content"));
-														// listString.append(charParam.get("content")+" ");
-														joiner.add(charParam.get("content").toString());
 														blockTextBuilder.append(charParam.get("content"));
 													} else {
-														System.out.print(" ");
-														bl.setText(" ");
+														// bl.setText(" ");
 														blockTextBuilder.append(" ");
 													}
-
-													// blockTextList.add(bl);
-													// restTempateCall(bl);
 												});
 											}
-											
-											System.out.println("Final Output is: "+blockTextBuilder);
+
+											System.out.println("Final Output is: " + blockTextBuilder);
+											System.out.println("Top" + bl.getTop() + "Left" + bl.getLeft());
 
 											bl.setText(blockTextBuilder.toString());
-											// restTempateCall(joiner.toString());
+
+											blockTextList.add(bl);
 										}
 
 									});
@@ -127,7 +112,9 @@ public class XmlToJsonService {
 			System.out.println(e.toString());
 		}
 
-		System.out.println("hello");
+		// System.out.println("hello");
+
+		PageTrackingLibrary.screenFinder(blockTextList);
 
 	}
 
