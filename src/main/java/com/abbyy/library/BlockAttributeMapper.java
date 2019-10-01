@@ -2,14 +2,14 @@ package com.abbyy.library;
 
 import java.util.List;
 
+import com.abbyy.formatter.InformationFormat;
+import com.abbyy.formatter.LineActionFormat;
 import com.abbyy.formatter.ProfileFormat;
 import com.abbyy.model.BlockInfo;
 
 public class BlockAttributeMapper {
 
-	public static ProfileFormat getProfileBlockAttributeMapper(List<BlockInfo> blockAttributeList,
-			String blockName) {
-
+	public static ProfileFormat getProfileBlockAttributeMapper(List<BlockInfo> blockAttributeList, String blockName) {
 
 		ProfileFormat profile = new ProfileFormat();
 
@@ -17,23 +17,25 @@ public class BlockAttributeMapper {
 
 			if (blockAtt.getText().contains("Alarm")) {
 
-				String attributeMap = getAttributeMap(BlockConstants.profiles_block_alarm_severity, blockAttributeList,
-						blockAtt.getTop(), blockAtt.getLeft());
-				profile.setAlarmSeverity(attributeMap);
+				String attributeMapAlarm = BlockKeyValueMapper.getAttributeMap(
+						BlockConstants.profiles_block_alarm_severity, blockAttributeList, blockAtt.getTop(),
+						blockAtt.getLeft());
+				profile.setAlarmSeverity(attributeMapAlarm);
 			}
 
 			if (blockAtt.getText().contains("xDSL")) {
 
-				String attributeMap = getAttributeMap(BlockConstants.profiles_block_xDsl_line, blockAttributeList,
-						blockAtt.getTop(), blockAtt.getLeft());
-				profile.setxDslLine(attributeMap);
+				String attributeMapXdsl = BlockKeyValueMapper.getAttributeMap(BlockConstants.profiles_block_xDsl_line,
+						blockAttributeList, blockAtt.getTop(), blockAtt.getLeft());
+				profile.setxDslLine(attributeMapXdsl);
 			}
 
 			if (blockAtt.getText().contains("Custom Notch:")) {
 
-				String attributeMap = getAttributeMap(BlockConstants.profiles_block_custom_notch, blockAttributeList,
-						blockAtt.getTop(), blockAtt.getLeft());
-				profile.setCustomNotch(attributeMap);
+				String attributeMapCustom = BlockKeyValueMapper.getAttributeMap(
+						BlockConstants.profiles_block_custom_notch, blockAttributeList, blockAtt.getTop(),
+						blockAtt.getLeft());
+				profile.setCustomNotch(attributeMapCustom);
 			}
 			if (blockAtt.getText().contains("Upstream PSD mask:")) {
 
@@ -52,22 +54,70 @@ public class BlockAttributeMapper {
 
 	}
 
-	private static String getAttributeMap(String nodeName, List<BlockInfo> bList, int top, int left) {
+	public static LineActionFormat getLineActionBlockAttributeMapper(List<BlockInfo> blockAttributeList,
+			String blockName, int bottom) {
 
-		for (BlockInfo b : bList) {
+		LineActionFormat lineAction = new LineActionFormat();
 
-			if (b.getTop() != top && (b.getTop() < (top + 8) && b.getTop() > (top - 8))) {
+		for (BlockInfo blockAtt : blockAttributeList) {
 
-			System.out.println("Found "+nodeName+" :"+ b.getText());
-				return b.getText();
-			} else {
+			if (blockAtt.getText().contains("Startup")) {
+				if (blockAtt.getText().contains("• Startup")) {
+					lineAction.setStartUp(true);
+				}
+			}
 
-				return BlockConstants.ORC_NOT_ABLE_RECORGINE;
+			if (blockAtt.getText().contains("Test mode")) {
+				if (blockAtt.getText().contains("• Test mode")) {
+					lineAction.setTestMode(true);
+				}
+			}
+
+			if (blockAtt.getText().contains("CELT")) {
+				if (blockAtt.getText().contains("• CELT")) {
+					lineAction.setDelt(true);
+				}
+			}
+			if (blockAtt.getText().contains("LOCK") || blockAtt.getText().contains("Unlock")) {
+
+				System.out.println("Line action Status: " + blockAtt.getText());
+				if (blockAtt.getText().contains("LOCK")) {
+					lineAction.setStatus(true);
+				}
+				if (blockAtt.getText().contains("Unlock")) {
+					lineAction.setStatus(false);
+				}
+
 			}
 
 		}
+		return lineAction;
 
-		return null;
+	}
+
+	public static InformationFormat getInformationBlockAttributeMapper(List<BlockInfo> blockAttributeList,
+			String blockName) {
+
+		InformationFormat info = new InformationFormat();
+
+		for (BlockInfo blockAtt : blockAttributeList) {
+
+			if (blockAtt.getText().contains("ID")) {
+
+				String attributeMapAlarm = BlockKeyValueMapper.getAttributeMap(BlockConstants.INFORMATION_BLOCK_ID,
+						blockAttributeList, blockAtt.getTop(), blockAtt.getLeft());
+				info.setId(attributeMapAlarm);
+			}
+
+			if (blockAtt.getText().contains("Name")) {
+				String attributeMapXdsl = BlockKeyValueMapper.getAttributeMap(BlockConstants.INFORMATION_BLOCK_NAME,
+						blockAttributeList, blockAtt.getTop(), blockAtt.getLeft());
+				info.setName(attributeMapXdsl);
+			}
+
+		}
+		return info;
+
 	}
 
 }

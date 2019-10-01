@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.abbyy.client.ClientSettings;
+import com.abbyy.formatter.NliFormat;
 
 @Service
 public class AbbyyOcrService {
@@ -17,19 +18,20 @@ public class AbbyyOcrService {
 	@Autowired
 	private XmlToJsonService xmlToJsonService;
 
-	public void AbbyyOcrProcessor() {
+	public NliFormat AbbyyOcrProcessor(String[] args) {
 
-		String[] args = { "recognize", "/home/harkesh/Desktop/12.png", "/home/harkesh/Desktop/rs.xml" };
+		// String[] args = { "recognize", "/home/harkesh/Desktop/12.png",
+		// "/home/harkesh/Desktop/rs.xml" };
 
 		System.out.println("Process documents using ABBYY Cloud OCR SDK.\n");
 
 		if (!checkAppId()) {
-			return;
+			return null;
 		}
 
 		if (args.length < 2) {
 			displayHelp();
-			return;
+			return null;
 		}
 
 		ClientSettings.setupProxy();
@@ -54,15 +56,16 @@ public class AbbyyOcrService {
 
 		try {
 			if (mode.equalsIgnoreCase("recognize")) {
-				performRecognition(argList);
+				return performRecognition(argList);
 			} else {
 				System.out.println("Unknown mode: " + mode);
-				return;
+				return null;
 			}
 		} catch (Exception e) {
 			System.out.println("Exception occured:" + e.getMessage());
 			e.printStackTrace();
 		}
+		return null;
 
 	}
 
@@ -102,7 +105,7 @@ public class AbbyyOcrService {
 	/**
 	 * Parse command line and recognize one or more documents.
 	 */
-	private void performRecognition(Vector<String> argList) throws Exception {
+	private NliFormat performRecognition(Vector<String> argList) throws Exception {
 		String language = CmdLineOptions.extractRecognitionLanguage(argList);
 		String outputPath = argList.lastElement();
 		argList.remove(argList.size() - 1);
@@ -140,10 +143,10 @@ public class AbbyyOcrService {
 
 		} else {
 			System.out.println("No files to process.");
-			return;
+			return null;
 		}
 
-		waitAndDownloadResult(task, outputPath);
+		return waitAndDownloadResult(task, outputPath);
 	}
 
 	/**
@@ -175,22 +178,23 @@ public class AbbyyOcrService {
 	/**
 	 * Wait until task processing finishes and download result.
 	 */
-	private void waitAndDownloadResult(Task task, String outputPath) throws Exception {
+	private NliFormat waitAndDownloadResult(Task task, String outputPath) throws Exception {
 		task = waitForCompletion(task);
 
 		if (task.Status == Task.TaskStatus.Completed) {
 			System.out.println("Downloading..");
 			String downloadResult = restClient.downloadResult(task, outputPath);
-			xmlToJsonService.xmlToJsonConverter(downloadResult);
 			System.out.println("Ready");
+			return xmlToJsonService.xmlToJsonConverter(downloadResult);
 		} else if (task.Status == Task.TaskStatus.NotEnoughCredits) {
 			System.out.println("Not enough credits to process document. "
 					+ "Please add more pages to your application's account.");
+			return null;
 		} else {
 			System.out.println("Task failed");
+			return null;
 
 		}
-
 	}
 
 	/**

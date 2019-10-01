@@ -10,6 +10,7 @@ import org.json.XML;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.abbyy.formatter.NliFormat;
 import com.abbyy.library.PageTrackingLibrary;
 import com.abbyy.model.BlockInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,7 @@ public class XmlToJsonService {
 	private static final String INDEX = "battery_info";
 	ObjectMapper objectMapper = new ObjectMapper();
 
-	public void xmlToJsonConverter(String xml_String) {
+	public NliFormat xmlToJsonConverter(String xml_String) {
 
 		List<BlockInfo> blockTextList = new ArrayList<BlockInfo>();
 
@@ -100,8 +101,9 @@ public class XmlToJsonService {
 		}
 
 		// System.out.println("hello");
+		PageTrackingLibrary pagelibrary = new PageTrackingLibrary();
 
-		PageTrackingLibrary.screenFinder(blockTextList);
+	return	pagelibrary.screenFinder(blockTextList);
 
 	}
 

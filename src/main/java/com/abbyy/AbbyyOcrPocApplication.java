@@ -20,7 +20,7 @@ public class AbbyyOcrPocApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		service.AbbyyOcrProcessor();
+	//	service.AbbyyOcrProcessor();
 	}
 
 }

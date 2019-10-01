@@ -3,6 +3,7 @@ package com.abbyy.model;
 public class BlockFinderParam {
 
 	private int top;
+	//private int bottom;
 	private int minleft;
 	private int maxleft;
 	private String blockName;
