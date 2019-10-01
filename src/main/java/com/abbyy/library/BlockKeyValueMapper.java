@@ -12,16 +12,16 @@ public class BlockKeyValueMapper {
 
 		String ValueFound = null;
 
-		int count = 0;
 		for (BlockInfo b : bList) {
+			
+			System.out.println("block Name"+ b.getText() +" top "+ b.getTop()+"/"+top);
 
-			if (b.getTop() != top && (b.getTop() < (top + 8) && b.getTop() > (top - 8))) {
+			if (b.getTop() != top && (b.getTop() < (top + 15) && b.getTop() > (top - 15))) {
 				ValueFound = b.getText();
 				break;
 			} else {
 				ValueFound = BlockConstants.ORC_NOT_ABLE_RECORGINE;
 			}
-			count++;
 		}
 
 		return ValueFound;

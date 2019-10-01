@@ -30,24 +30,40 @@ public class BlockAttributeMapper {
 				profile.setxDslLine(attributeMapXdsl);
 			}
 
-			if (blockAtt.getText().contains("Custom Notch:")) {
+			if (blockAtt.getText().contains("Notch")) {
 
 				String attributeMapCustom = BlockKeyValueMapper.getAttributeMap(
 						BlockConstants.profiles_block_custom_notch, blockAttributeList, blockAtt.getTop(),
 						blockAtt.getLeft());
 				profile.setCustomNotch(attributeMapCustom);
 			}
-			if (blockAtt.getText().contains("Upstream PSD mask:")) {
+			if (blockAtt.getText().contains("Upstream PSD mask")) {
+				
+				String attributeMapCustom = BlockKeyValueMapper.getAttributeMap(
+						BlockConstants.PROFILES_BLOCK_UPSTREAM_PSD_MARK, blockAttributeList, blockAtt.getTop(),
+						blockAtt.getLeft());
+				profile.setUpstreamPsdMark(attributeMapCustom);
 
 			}
-			if (blockAtt.getText().contains("Downstream PSD mask:")) {
+			if (blockAtt.getText().contains("Downstream PSD mask")) {
+				
+				String attributeMapCustom = BlockKeyValueMapper.getAttributeMap(
+						BlockConstants.PROFILES_BLOCK_DOWNSTREAM_PSD_MARK, blockAttributeList, blockAtt.getTop(),
+						blockAtt.getLeft());
+				profile.setDownstreamPsdMark(attributeMapCustom);
 
 			}
-			if (blockAtt.getText().contains("Event:")) {
-				;
+			if (blockAtt.getText().contains("Event")) {
+				String attributeMapCustom = BlockKeyValueMapper.getAttributeMap(
+						BlockConstants.PROFILES_BLOCK_EVENT, blockAttributeList, blockAtt.getTop(),
+						blockAtt.getLeft());
+				profile.setEvent(attributeMapCustom);
 			}
 			if (blockAtt.getText().contains("Channel")) {
-
+				String attributeMapCustom = BlockKeyValueMapper.getAttributeMap(
+						BlockConstants.PROFILES_BLOCK_CHANNEL1, blockAttributeList, blockAtt.getTop(),
+						blockAtt.getLeft());
+				profile.setChannel1(attributeMapCustom);
 			}
 		}
 		return profile;

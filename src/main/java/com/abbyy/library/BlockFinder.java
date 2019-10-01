@@ -12,7 +12,7 @@ public class BlockFinder {
 	public static BlockFinderParam blockNameFinder(BlockInfo block) {
 
 		BlockFinderParam blockParam = null;
-		//logger.info("Enter Block Name" + block.getText());
+		logger.info("Enter Block Name" + block.getText());
 
 		if (block.getText().contains("Equipment Configuration")) {
 			// return "String";
