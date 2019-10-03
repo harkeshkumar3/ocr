@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.abbyy.formatter.NliFormat;
+
 public class googleBlockFilterService {
 
-	public static List<GooglefilterSet> getTextLineBlock(List<GoogleBlock> gBlock) {
+	public static NliFormat getTextLineBlock(List<GoogleBlock> gBlock) {
 
 		String totalDescription = gBlock.get(0).getText();
 
@@ -45,7 +47,7 @@ public class googleBlockFilterService {
 
 	}
 
-	public static List<GooglefilterSet>  compareText(String[] list, Set<GooglefilterSet> filterSet) {
+	public static NliFormat  compareText(String[] list, Set<GooglefilterSet> filterSet) {
 
 		List<GooglefilterSet> fixList = new ArrayList<GooglefilterSet>();
 

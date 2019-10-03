@@ -47,7 +47,7 @@ public class ProcessImageController {
 	}
 
 	@GetMapping(path = "/getTextDetection")
-	public List<GooglefilterSet> getTextDetection() {
+	public NliFormat getTextDetection() {
 		Resource imageResource = this.resourceLoader.getResource("file:/home/harkesh/Desktop/12.png");
 		AnnotateImageResponse response = this.cloudVisionTemplate.analyzeImage(imageResource,
 				Feature.Type.DOCUMENT_TEXT_DETECTION);

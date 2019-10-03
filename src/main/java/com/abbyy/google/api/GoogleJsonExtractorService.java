@@ -3,13 +3,14 @@ package com.abbyy.google.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.abbyy.formatter.NliFormat;
 import com.google.cloud.vision.v1.BoundingPoly;
 import com.google.cloud.vision.v1.EntityAnnotation;
 import com.google.cloud.vision.v1.Vertex;
 
 public class GoogleJsonExtractorService {
 
-	public static List<GooglefilterSet> getGoogleJsonExtract(List<EntityAnnotation> textAnnotationsList) {
+	public static NliFormat getGoogleJsonExtract(List<EntityAnnotation> textAnnotationsList) {
 
 		List<GoogleBlock> googleBlockList = new ArrayList<GoogleBlock>();
 
