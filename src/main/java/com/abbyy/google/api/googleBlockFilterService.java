@@ -15,6 +15,10 @@ public class googleBlockFilterService {
 		String totalDescription = gBlock.get(0).getText();
 
 		String[] desList = totalDescription.split("\\n");
+		for(String s : desList) {
+			
+			//System.out.println("Split Text " + s);
+		}
 
 		List<GoogleBlock> googleList = new ArrayList<GoogleBlock>();
 		Set<GooglefilterSet> filterSet = new HashSet<GooglefilterSet>();
@@ -37,25 +41,27 @@ public class googleBlockFilterService {
 			googleBlock.setBottomLeft(gb.getBottomLeft());
 			GooglefilterSet gSet = new GooglefilterSet(stringBuilder.toString(), gb.getTopLeft().getY(),
 					gb.getBottomLeft().getY());
+			//System.out.println("Filter set Text " + stringBuilder.toString());
 
 			filterSet.add(gSet);
 			googleList.add(googleBlock);
 
 		});
-		System.out.println(googleList.size() + "Filter set " + filterSet.size());
+		//System.out.println(googleList.size() + "Filter set " + filterSet);
 		return compareText(desList, filterSet);
 
 	}
 
-	public static NliFormat  compareText(String[] list, Set<GooglefilterSet> filterSet) {
+	public static NliFormat compareText(String[] list, Set<GooglefilterSet> filterSet) {
 
 		List<GooglefilterSet> fixList = new ArrayList<GooglefilterSet>();
 
 		for (String x : list) {
 
 			for (GooglefilterSet filter : filterSet) {
-				if (x.replaceAll("\\s+", "").equalsIgnoreCase(filter.getText().replaceAll("\\s+", "")) && !x.equals("+")) {
-					System.out.println("Found " + x);
+				if (x.replaceAll("\\s+", "").equalsIgnoreCase(filter.getText().replaceAll("\\s+", ""))
+						&& !x.equals("+")) {
+				//	System.out.println("Found " + x);
 					GooglefilterSet gList = new GooglefilterSet(x, filter.getTop(), filter.getBottom());
 					fixList.add(gList);
 				}

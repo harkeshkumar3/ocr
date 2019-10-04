@@ -46,9 +46,9 @@ public class ProcessImageController {
 		return AbbyyOcrService.AbbyyOcrProcessor(args);
 	}
 
-	@GetMapping(path = "/getTextDetection")
-	public NliFormat getTextDetection() {
-		Resource imageResource = this.resourceLoader.getResource("file:/home/harkesh/Desktop/12.png");
+	@PostMapping(path = "/getTextDetection")
+	public NliFormat getTextDetection(@RequestBody ProcessImageRequestParam filePath) {
+		Resource imageResource = this.resourceLoader.getResource("file:"+filePath.getFilePath());
 		AnnotateImageResponse response = this.cloudVisionTemplate.analyzeImage(imageResource,
 				Feature.Type.DOCUMENT_TEXT_DETECTION);
 	//	List<EntityAnnotation> textAnnotationsList = response.getTextAnnotationsList();

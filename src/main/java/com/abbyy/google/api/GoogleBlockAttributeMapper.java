@@ -70,18 +70,18 @@ public class GoogleBlockAttributeMapper {
 
 		sList.forEach(s -> {
 
+			logger.info("Status Match" + s.getText());
 			line.setStartUp(true);
 			line.setDelt(false);
 			
 			if (s.getText().equals("Unlock") || s.getText().equals("Lock")) {
 
-				logger.info("Status Match" + s.getText());
-
+System.out.println("______________________________"+s.getText());
 				if (s.getText().equals("Unlock")) {
 					line.setStatus(false);
 				}
 				if (s.getText().equals("Lock")) {
-					line.setStatus(false);
+					line.setStatus(true);
 				}
 
 			}
