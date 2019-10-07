@@ -3,6 +3,9 @@ package com.abbyy.google.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.abbyy.formatter.NliFormat;
 import com.google.cloud.vision.v1.BoundingPoly;
 import com.google.cloud.vision.v1.EntityAnnotation;
@@ -10,7 +13,11 @@ import com.google.cloud.vision.v1.Vertex;
 
 public class GoogleJsonExtractorService {
 
+	static final Logger logger = LoggerFactory.getLogger(GoogleJsonExtractorService.class);
+
 	public static NliFormat getGoogleJsonExtract(List<EntityAnnotation> textAnnotationsList) {
+
+		logger.info("Inside getGoogleJsonExtract");
 
 		List<GoogleBlock> googleBlockList = new ArrayList<GoogleBlock>();
 

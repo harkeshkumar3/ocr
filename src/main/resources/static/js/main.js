@@ -15,12 +15,26 @@ var multipleFileUploadSuccess = document
 		.querySelector('#multipleFileUploadSuccess');
 
 var el_up = document.getElementById("GFG_UP"); 
-var el_down = document.getElementById("GFG_DOWN"); 
+var el_down = document.getElementById("GFG_DOWN");
+
+
+/* Abbyy File Uplaoder page */
+
+var abbyyUploadForm = document.querySelector('#abbyyUploadForm');
+var abbyyFileUploadInput = document.querySelector('#abbyyFileUploadInput');
+var abbyyFileUploadError = document.querySelector('#abbyyFileUploadError');
+var abbyyFileUploadSuccess = document
+		.querySelector('#abbyyFileUploadSuccess');
+
+var abbyy_el_up = document.getElementById("abbyyGFG_UP"); 
+var abbyy_el_down = document.getElementById("abbyyGFG_DOWN"); 
+
+/* End  */
 
 var obj = {  }; 
 
 
-el_up.innerHTML = JSON.stringify(obj); 
+/* el_up.innerHTML = JSON.stringify(obj); */
 
 
 function uploadSingleFile(file) {
@@ -55,6 +69,16 @@ function uploadSingleFile(file) {
 
 	xhr.send(formData);
 }
+
+
+function abbyyFileUpload(file) {
+	var formData = new FormData();
+	formData.append("file", file);
+
+	console.log(formData);
+	console.log(file);
+}
+
 
 function uploadMultipleFiles(files) {
 	var formData = new FormData();
@@ -95,6 +119,16 @@ singleUploadForm.addEventListener('submit', function(event) {
 		singleFileUploadError.style.display = "block";
 	}
 	uploadSingleFile(files[0]);
+	event.preventDefault();
+}, true);
+
+abbyyUploadForm.addEventListener('submit', function(event) {
+	var files = abbyyFileUploadInput.files;
+	if (files.length === 0) {
+		abbyyFileUploadError.innerHTML = "Please select a file";
+		abbyyFileUploadError.style.display = "block";
+	}
+	abbyyFileUpload(files[0]);
 	event.preventDefault();
 }, true);
 
